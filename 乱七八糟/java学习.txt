@@ -1,0 +1,124 @@
+一.集合
+1.List：知道索引位置，顺序。排序：sort()。ArrayList无排序功能
+2.Set：不允许重复元素 
+	
+HashSet：比较二者的hasCode 是否相等(根据是否指向内存的同一对象计算)，如果相等，继续比较equals()(hashCode相等，不代表是同一对象)
+	hascode()通过返回每个对象特有的序号，根据内存的位置计算,但可能发生碰撞，不同的对象产生相同的hashCode
+	引用相等(两个引用指向同一对象，可以使用==来比较对象的字节组合是否相等)
+	对象相等（指向两个对象但对象的意义相同，通过覆盖hasCode()与equals()实现）
+	过程：调用hashCode()比较hashCode是否相等，如果相等则调用equals()比较是否相等，如果equals()没有被覆盖过，则两个对象永远不会相等，不同的对不	同的字节组合
+TreeSet:集合中的元素必须实现Comparable类型(覆盖comparaTo())或者自定义Comparator接口覆盖compare()方法,不然TreeSet不知道如何比较两个元素
+3.Map：key-value(value可以相同,key不能相等)
+
+二.泛型与多态的区别：
+编译器会根据引用的类型而不是实际对象来判断能够调用哪些方法
+	public void get(ArraList <? extends Animals>)
+==	public <T extends Animals> void get(ArrayList<T>)
+
+	数组可以使用多态，但集合不能使用多态。数组实在运行期检查类型，集合实在编译器检查类型。防止以下事故发生
+	public void get(Animal a)
+	get(Dog[] dogs){
+		dogs.add(new Cat());
+}	
+
+内部类：可以自由的存取外部类的全部内容，包括私有变量
+三.图形用户接口
+JFrame不能直接添加组件，要用contentPanle。要显示window，必须指定尺寸与执行显示动作：setSize()与setVisible(true)
+Jpanel 中 paintComponent(Graphics g)方法有GUI系统调用重绘，不可以自己调用，用户自定义方法(如何重绘),JPanel.repaint():调用组件paint()方法
+Graphics 对象背后其实引用的是Graphics2D对象，是Graphics的子类，可以完成更多的功能
+
+
+四.static :
+通常是实用方法，实例变量的状态对其行为没有影响，不需要实例。私有的构造函数限制其不能被初始化。不能调用非静态的方法和变量，不知道堆上有哪些实例变量，在第一次被载入时初始化，在类的任何对象和任何静态方法调用前。他的值对类的所有实例对象都是共享的，相同的值。
+
+五.final：
+初始化之后不会变动，只能在声明和静态初始化程序中被初始化。
+final的类：不能被继承
+final的方法：不能被覆盖
+
+final的变量：值不能被改变
+
+
+六.primitive主数据类型：
+
+Boolean Character Float Long Short Integer Double Byte
+java.5.0之前主数据类型与对象不能交互使用
+int i=9;
+Integer itg=new Integer(i);//包装
+int value=itg.intValue();//解开包装
+
+将数字转换为string: ""+d;(最简单)
+
+
+七.Format 
+可变参数列表
+取得当前的日期用Date，其余的用Calendar
+Calendar:get(int  field),getTime(),setTime(),set(),add(),roll()....
+         MOUNTH,YEAR，HOUR_OF_DAY...
+
+八.抽象类
+有些类的实例不存在，但他代表一类不同对象的集合。如Animal类，没有动物叫Animal，但Animal尤其子类Dog，Cat等等。
+抽象除了被继承外，没有值和用途
+抽象的方法：抽象类中的某些行为在没有特定运行时没有任何意义，没有任何通用的实现是可行的。抽象的方法必须在抽象的类中定义。
+		就算无法实现方法的内容，但是可以定义出一组子类共同的协议。为了标记多态而存在。
+子类必须要实现抽象类的所有抽象方法
+Objectlei为所有类型的父类
+编译器是通过引用类型来确认有哪些方法可以调用，而不是Object 的真正类型
+Object o=dogs.get(index);
+o.bark();//不允许
+o.hashCode();//Object原本的方法，可以
+
+每个对象除了真正的类型外，还可以被当作Object类型来处理
+类型转换：
+if(b instanceof Dog)
+	Dog a=(Dog)b;
+
+九.接口
+
+宠物需要实现pet()方法，但狮子老虎不需要，而他们共同继承Animal 类：
+1.用继承：有些方法父类有，但子类不需要有，如果继承就不符合了。有些动物没有宠物的行为...
+2.用抽象：无论需不需要，所有子类必须覆盖抽象方法，浪费时间，难以复用
+3.把方法加到需要的地方：多态不起作用，无法确定同一类方法是bePlet()还是doPlet(),需要针对个别类进行特殊设计
+4.java不支持多重继承
+
+
+解决方法：接口，接口所有的方法都是抽象的
+
+大部分良好的设计不需要在抽先层面实现所有细节，我们需要的只是一个共同的合约，让子类去实现细节也是很好的。
+允许不同继承树的类实现相同接口
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
